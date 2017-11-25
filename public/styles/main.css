@@ -1,0 +1,213 @@
+@font-face {
+font-family: 'glyph';
+src: url('/fonts/glyphicons-halflings-regular.woff2');
+}
+
+body {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+margin: 0px;
+color: rgb(30,30,30);
+-webkit-user-select: none;
+user-select: none;
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+/* Header */
+.header {
+display: flex;
+justify-content: center;
+align-items: center;
+align-self: flex-start;
+width: 100%;
+height: 50px;
+background-color: rgb(30,30,30);
+color: rgb(221,221,221);
+}
+.header h1::before {
+font-family: 'glyph';
+content: '\e199 ';
+}
+@media screen and (max-width: 275px) {
+.header h1 {
+    font-size: 12pt;
+}
+}
+
+/* Container */
+.container {
+width: 100%;
+max-width: 550px;
+overflow-x: hidden;
+}
+.onoff {
+display: flex;
+align-items: center;
+justify-content: space-around;
+margin-top: 20px;
+}
+.panels {
+display: flex;
+flex-wrap: nowrap;
+width: 200%;
+transition: transform 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.panel {
+width: 50%;
+}
+.panels.page2 {
+transform: translateX(-50%);
+}
+
+/* Slider */
+.slider {
+width: 120px;
+    height: 40px;
+    background: rgb(51,51,51);
+    border-radius: 50px;
+    position: relative;
+}
+.slider:before {
+    content: 'On';
+    position: absolute;
+    top: 12px;
+    left: 13px;
+    height: 2px;
+    color: #26ca28;
+    font-size: 16px;
+}
+.slider:after {
+    content: 'Off';
+    position: absolute;
+    top: 12px;
+    left: 84px;
+    height: 2px;
+    color: rgb(221,221,221);
+    font-size: 16px;
+}
+.slider label {
+    display: block;
+    width: 52px;
+    height: 22px;
+    border-radius: 50px;
+    transition: all .5s ease;
+    cursor: pointer;
+    position: absolute;
+    top: 9px;
+    z-index: 1;
+    left: 12px;
+    background: rgb(221,221,221);
+}
+.slider input[type='checkbox']:checked + label {
+    left: 60px;
+    background: #26ca28;
+}
+.slider input[type='checkbox'] {
+opacity: 0;
+width: 100%;
+height: 100%;
+}
+
+/* Timer */
+.timer {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-between;
+min-height: 100px;
+}
+.timer label {
+font-size: 14pt;
+font-weight: bold;
+}
+.timer input[type='time'] {
+
+font-size: 14pt;
+}
+
+
+/* Menu */
+ul.nav {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-around;
+align-items: center;
+    list-style: none;
+padding-left: 0px;
+}
+
+.nav label {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 50px;
+border-radius: 50px;
+font-size: 14pt;
+transition: all 100ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+cursor: pointer;
+}
+.nav label:hover {
+transform: scale(.95);
+}
+.nav label:active {
+transform: scale(.9);
+}
+.nav li input[type='radio'] {
+display: none;
+}
+.nav input[type='radio']:checked + label {
+background-color: rgb(51,51,51);
+color:rgb(221,221,221);
+}
+
+/* Color Pickers */
+.color_picker label{
+width: 75px;
+opacity: 0.5;
+}
+.color_picker input[type='radio']:checked + label {
+opacity: 1;
+transform: scale(1.2);
+}
+#color1 + label {
+background-image: linear-gradient(to right,red 14%,orange 15%,orange 28%,yellow 29%,yellow 42%,green 43%,green 56%, blue 57%,blue 70%,indigo 71%,indigo 84%,violet 85%);
+}
+#color2 + label {
+background-image: linear-gradient(to right,red 50%,green 51%);
+}
+#color3 + label {
+background-image: linear-gradient(to right,blue 50%,rgb(221,221,221) 51%);
+}
+#color4 + label {
+background-image: linear-gradient(to right, rgb(0, 34, 68) 50%,rgb(105,190,40) 51%);
+}
+input[type='color'] {
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: none;
+    width: 125px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0px;
+}
+input[type='color']::-webkit-color-swatch {
+    border: 2px solid rgb(30,30,30);
+    border-radius: 50px;
+}
+
+/* Pattern Picker */
+.pattern_picker label {
+    width: 150px;
+    border: 2px solid rgb(30,30,30);
+}
+.pattern_picker label {
+margin-bottom: 20px;
+}

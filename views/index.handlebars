@@ -1,0 +1,95 @@
+<div class="header">
+    <h1> {{title}}</h1>
+</div>
+
+<div class="container">
+    <div class="onoff">
+        <div class="slider"> 
+            <input type="checkbox" name="power" id="power" onclick="changePattern(this.checked?lastPattern:0)" {{notchecked 0}}><label for="power"></label>
+        </div>
+
+        <div class="timer">
+            <div><label for="start_time">On at</label> <input type="time" id="start_time" value="{{startTime}}" onchange="changeStartTime(this.value)"></div>
+            <div><label for="stop_time">Off at</label> <input type="time" id="stop_time" value="{{stopTime}}" onchange="changeStopTime(this.value)"></div>
+        </div>
+    </div>
+
+    <hr>
+
+    <ul class="nav color_picker">
+        <li><input type="radio" name="color" id="color1" onchange="if(this.checked) changePage(1)" checked><label for="color1" aria-label="Rainbox"></label></li>
+        <li><input type="radio" name="color" id="color2" onchange="if(this.checked) changePage(2)"><label for="color2" aria-label="Red and green"></label></li>
+        <li><input type="radio" name="color" id="color3" onchange="if(this.checked) changePage(2)"><label for="color3" aria-label="Blue and white"></label></li>
+        <li><input type="radio" name="color" id="color4" onchange="if(this.checked) changePage(2)"><label for="color4" aria-label="Seahawks"></label></li>
+    </ul>
+
+    <hr>
+    <div class="panels">
+        <ul class="panel nav pattern_picker">
+            <li><input type="radio" name="pattern" id="pattern1" onclick="changePattern(1)" {{checked 1}}><label for="pattern1">Random</label></li>
+            <li><input type="radio" name="pattern" id="pattern2" onclick="changePattern(2)" {{checked 2}}><label for="pattern2">Rainbow</label></li>
+            <li><input type="radio" name="pattern" id="pattern3" onclick="changePattern(3)" {{checked 3}}><label for="pattern3">Rainbow Glitter</label></li>
+            <li><input type="radio" name="pattern" id="pattern4" onclick="changePattern(4)" {{checked 4}}><label for="pattern4">Confetti</label></li>
+            <li><input type="radio" name="pattern" id="pattern5" onclick="changePattern(5)" {{checked 5}}><label for="pattern5">Sinelon</label></li>
+            <li><input type="radio" name="pattern" id="pattern6" onclick="changePattern(6)" {{checked 6}}><label for="pattern6">Juggle</label></li>
+            <li><input type="radio" name="pattern" id="pattern7" onclick="changePattern(7)" {{checked 7}}><label for="pattern7">BPM</label></li>
+        </ul>
+        <ul class="panel nav pattern_picker">
+            <li><input type="radio" name="pattern" id="pattern8" onclick="changePattern(8)" {{checked 8}}><label for="pattern8">Solid</label></li>
+            <li><input type="radio" name="pattern" id="pattern9" onclick="changePattern(9)" {{checked 9}}><label for="pattern9">Twinkle</label></li>
+            <li><input type="radio" name="pattern" id="pattern10" onclick="changePattern(10)" {{checked 10}}><label for="pattern10">Fader</label></li>
+            <li><input type="radio" name="pattern" id="pattern11" onclick="changePattern(11)" {{checked 11}}><label for="pattern11">Chaser</label></li>
+            <li><input type="color" name="color1" id="color1" onchange="changeColor1(this.value)" value="{{color1}}"></li>
+            <li><input type="color" name="color2" id="color2" onchange="changeColor2(this.value)" value="{{color2}}"></li>
+        </ul>
+    </div>
+    </div>
+
+<script>
+var lastPattern = {{currentPattern}};
+function changePattern(pattern)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET", "/api/" + pattern);
+    req.send();
+    if (pattern!==0)
+        lastPattern = pattern;
+}
+function changeStartTime(time)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET", "/api/?start=" + time);
+    req.send();
+}
+function changeStopTime(time)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET", "/api/?stop=" + time);
+    req.send();
+}
+function changeColor1(color)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET", "/api/?color1=" + parseInt(color.substr(1),16));
+    req.send();
+}
+function changeColor2(color)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET", "/api/?color2=" + parseInt(color.substr(1),16));
+    req.send();
+}
+
+// iOS Safari screwed us on :active, so we'll work around that with script...ewwww
+document.addEventListener("touchstart", function(){}, true);
+document.addEventListener("touchstart", function(e){if(e.touches.length>1) e.preventDefault()}, true);
+
+function changePage(page)
+{
+    if(page==1) {
+        document.querySelector('.panels').classList.remove('page2');
+    }else{
+        document.querySelector('.panels').classList.add('page2');
+    }
+}
+</script>
