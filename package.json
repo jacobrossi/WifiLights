@@ -1,7 +1,25 @@
 {
   "name": "wifilights",
   "version": "1.5.0",
-  "private": true,
+  "description": "Web app and companion Arduino firmware for controlling addressable LED strips.",
+  "author": "Jacob Rossi @jacobrossi",
+  "keywords": [
+      "LEDs",
+      "WS2812B",
+      "Neopixel",
+      "Christmas",
+      "Lights",
+      "Xmas",
+      "Arduino"
+  ],
+  "license": "MIT",
+  "repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/jacobrossi/wifilights"
+  },
+  "bugs": {
+      "url": "https://github.com/jacobrossi/wifilights/issues"
+  },
   "engines": {
     "node": "8.4.0"
   },
@@ -17,5 +35,6 @@
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0",
     "express-handlebars": "3.0.0"
-  }
+  },
+  "private": true
 }
