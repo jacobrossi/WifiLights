@@ -1,5 +1,5 @@
 # WifiLights
-Web app and companion Arduino firmware for controlling addressable LED strips.
+Web app and companion Arduino firmware for controlling addressable RGB LED strips. It was designed with Christmas lights in mind, but you can use it for all kinds of fun projects.
 
 <img src="https://github.com/jacobrossi/WifiLights/raw/master/public/images/screenshot.jpg" width="300" alt="Screenshot of WifiLights app">
 
@@ -8,7 +8,7 @@ Use of this project is at your own risk. Your safety is your own responsibility,
 
 ## Hardware setup
 
-__Note:  Powering an LED strip with less than 10A is not recommended. If you're using more than couple hundred LEDs, you'll need even more power. Projects of this scale are potentially very dangerous without proper parts and experience in high-power, low-voltage systems. Always do the math. Always provide adequate power. Always take measurements to confirm operating values are as expected.__
+:zap: __Important__ :zap:  Powering an LED strip with less than 10A is not recommended. Unless you just have a handful of LED pixels, you cannot power it directly from a microcontroller. If you're using more than couple hundred LEDs, you will likely need more advanced power supply than the one in the exampleparts list. __Projects of this scale are potentially very dangerous without proper parts and experience in high-power, low-voltage systems.__ Always do the math. Always provide adequate power. Always take measurements to confirm operating values are as expected.
 
 ### Example Parts List
 Here's some suggested parts to get you started: http://a.co/6A6ZOjq
@@ -32,7 +32,7 @@ This starts the web app. By default, it starts on port 3000 (e.g. http://localho
 
 ### ESP8266 Firmware
 
-__Important!__ Always ensure the power supply is connected to the circuit before plugging in the FTDI cable. The FTDI cable will supply power from your USB port -- __but not enough to power your LEDs__. Plugging in the FTDI cable without the power supply connected could overload your USB port and damage it.
+:zap: __Important!__ :zap: Always ensure the power supply is connected to the circuit before plugging in the FTDI cable. The FTDI cable will supply power from your USB port - but not enough to power your LEDs. __Plugging in the FTDI cable without the power supply connected could overload your USB port and damage it.__
 
 1. Install the Arduino IDE (recommended): https://www.arduino.cc/en/Main/Software
 2. Edit WifiLightsConfig.h with your setup (SSID, Password, Server Hostname, LED protocol, etc.)
