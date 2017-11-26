@@ -1,10 +1,10 @@
 # WifiLights
 Web app and companion Arduino firmware for controlling addressable LED strips.
 
+![Screenshot of WifiLights web app](https://github.com/jacobrossi/WifiLights/raw/master/public/images/screenshot.jpg)
+
 ## Warning
 Use of this project is at your own risk. Your safety is your own responsibility, including proper use of equipment and safety gear, and determining whether you have adequate skill and experience.
-
-An adequate understanding of electrical circuits and safety is highly recommended for this project. In particular, adequately powering your LED strips is critical. You cannot power them directly from a microcontroller pin. Check the specifications  LED strips in your project and allow for a safety buffer. Using a meter to confirm your power utilization is also highly recommended. Incorrectly powering your project can result in damage to your parts, or worse, can cause your supply to overheat or start a fire. 
 
 ## Software setup
 1. npm install
