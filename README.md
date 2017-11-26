@@ -8,7 +8,9 @@ Use of this project is at your own risk. Your safety is your own responsibility,
 
 ## Hardware setup
 
-:zap: __Important__ :zap:  Powering an LED strip with less than 10A is not recommended. Unless you just have a handful of LED pixels, you cannot power it directly from a microcontroller. If you're using more than couple hundred LEDs, you will likely need more advanced power supply than the one in the exampleparts list. __Projects of this scale are potentially very dangerous without proper parts and experience in high-power, low-voltage systems.__ Always do the math. Always provide adequate power. Always take measurements to confirm operating values are as expected.
+:zap: __Important__ :zap: 
+
+Powering an LED strip with less than 10A is not recommended. Unless you just have a handful of LED pixels, you cannot power it directly from a microcontroller. If you're using more than couple hundred LEDs, you will likely need more advanced power supply than the one in the exampleparts list. __Projects of this scale are potentially very dangerous without proper parts and experience in high-power, low-voltage systems.__ Always do the math. Always provide adequate power. Always take measurements to confirm operating values are as expected.
 
 ### Example Parts List
 Here's some suggested parts to get you started: http://a.co/6A6ZOjq
@@ -32,7 +34,9 @@ This starts the web app. By default, it starts on port 3000 (e.g. http://localho
 
 ### ESP8266 Firmware
 
-:zap: __Important!__ :zap: Always ensure the power supply is connected to the circuit before plugging in the FTDI cable. The FTDI cable will supply power from your USB port - but not enough to power your LEDs. __Plugging in the FTDI cable without the power supply connected could overload your USB port and damage it.__
+:zap: __Important!__ :zap: 
+
+Always ensure the power supply is connected to the circuit before plugging in the FTDI cable. The FTDI cable will supply power from your USB port - but not enough to power your LEDs. __Plugging in the FTDI cable without the power supply connected could overload your USB port and damage it.__
 
 1. Install the Arduino IDE (recommended): https://www.arduino.cc/en/Main/Software
 2. Edit WifiLightsConfig.h with your setup (SSID, Password, Server Hostname, LED protocol, etc.)
