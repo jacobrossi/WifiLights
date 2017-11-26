@@ -1,7 +1,7 @@
 # WifiLights
 Web app and companion Arduino firmware for controlling addressable LED strips.
 
-![Screenshot of WifiLights web app](https://github.com/jacobrossi/WifiLights/raw/master/public/images/screenshot.jpg "Screenshot of WifiLights web app")
+<img src="https://github.com/jacobrossi/WifiLights/raw/master/public/images/screenshot.jpg" width="300" alt="Screenshot of WifiLights app">
 
 ## Warning
 Use of this project is at your own risk. Your safety is your own responsibility, including proper use of equipment and safety gear, and determining whether you have adequate skill and experience.
