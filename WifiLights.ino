@@ -6,6 +6,8 @@
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include "WifiLightsConfig.h"
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
 
 FASTLED_USING_NAMESPACE
 
@@ -33,6 +35,28 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
+  //Setup OTA
+  ArduinoOTA.onStart([]() {
+    Serial.println("Starting OTA Update");
+  });
+  ArduinoOTA.onEnd([]() {
+    Serial.println("\nEnd");
+  });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+  });
+  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+    else if (error == OTA_END_ERROR) Serial.println("End Failed");
+  });
+  ArduinoOTA.begin();
+
+  Serial.println("OTA Updates Enabled");
+
   // Setup LEDs
   delay(2400); //Delay for recovery 
   
@@ -43,7 +67,7 @@ void setup() {
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, bpm, solid, twinkle };
+SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, dotsweep, juggle, bpm, solid, twinkle };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -59,6 +83,9 @@ void loop()
   
   EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
   EVERY_N_SECONDS( 10 ) { pollService(); } // poll service for latest pattern setting
+
+  //Check for OTA updates
+  ArduinoOTA.handle();
 }
 
 void pollService()
@@ -130,7 +157,7 @@ void pollService()
       gCurrentPatternNumber = 2;
       break;   
     case 5:
-      Serial.println("Setting LEDs to SINELON");
+      Serial.println("Setting LEDs to DOTSWEEP");
       FastLED.setBrightness(BRIGHTNESS);
       gCurrentPatternNumber = 3;
       break;
@@ -210,7 +237,7 @@ void confetti()
   leds[pos] += CHSV( gHue + random8(64), 200, 255);
 }
 
-void sinelon()
+void dotsweep()
 {
   // a colored dot sweeping back and forth, with fading trails
   fadeToBlackBy( leds, NUM_LEDS, 20);
