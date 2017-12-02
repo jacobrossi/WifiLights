@@ -57,8 +57,7 @@ void loop()
   FastLED.show();  // send the 'leds' array out to the actual LED strip
   FastLED.delay(1000/FRAMES_PER_SECOND); // insert a delay to keep the framerate modest
   
-  gHue += 2;// slowly cycle the "base color" through the rainbow
-  
+  EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
   EVERY_N_SECONDS( 10 ) { pollService(); } // poll service for latest pattern setting
 }
 
