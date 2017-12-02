@@ -43,7 +43,7 @@ void setup() {
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, bpm, twinkle, solid };
+SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, bpm, solid, twinkle };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -150,11 +150,11 @@ void pollService()
       break;
     case 8:
       Serial.println("Setting LEDs to SOLID");
-      gCurrentPatternNumber = 8;
+      gCurrentPatternNumber = 6;
       break;
     case 9:
       Serial.println("Setting LEDs to TWINKLE");
-      gCurrentPatternNumber = 6;
+      gCurrentPatternNumber = 7;
       break;
     default:
       //Unrecognized response, just increment to the next pattern
