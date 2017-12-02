@@ -1,7 +1,7 @@
 // WifiLights
 // Portions of the animation routines from FastLED DemoReel100 (see LICENSE)
 // Configure settings in WifiLightsConfig.h before flashing
-
+#define FASTLED_ALLOW_INTERRUPTS 0
 #include "FastLED.h"
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
@@ -52,16 +52,13 @@ uint32_t color2 = 65280; //Green
 
 void loop()
 {
-  // Call the current pattern function once, updating the 'leds' array
-  gPatterns[gCurrentPatternNumber]();
-
-  // send the 'leds' array out to the actual LED strip
-  FastLED.show();  
-  // insert a delay to keep the framerate modest
-  FastLED.delay(1000/FRAMES_PER_SECOND); 
-
-  // do some periodic updates
-  EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
+  gPatterns[gCurrentPatternNumber](); // Call the current pattern function once, updating the 'leds' array
+  
+  FastLED.show();  // send the 'leds' array out to the actual LED strip
+  FastLED.delay(1000/FRAMES_PER_SECOND); // insert a delay to keep the framerate modest
+  
+  gHue += 2;// slowly cycle the "base color" through the rainbow
+  
   EVERY_N_SECONDS( 10 ) { pollService(); } // poll service for latest pattern setting
 }
 
