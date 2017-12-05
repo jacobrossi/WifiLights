@@ -127,7 +127,7 @@ void pollService()
   color1 = root["color1"];
   color2 = root["color2"];
   if(root["brightness"]) {
-    brightness = root["brightness"]'
+    brightness = root["brightness"];
     Serial.println("brightness: " + String(brightness));
   }
   Serial.println("pattern: " + String(pattern));

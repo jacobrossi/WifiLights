@@ -4,10 +4,12 @@
 
 <div class="container">
     <div class="onoff">
-        <div class="slider"> 
-            <input type="checkbox" name="power" id="power" onclick="changePattern(this.checked?lastPattern:0)" {{notchecked 0}}><label for="power"></label>
+        <div class="power">
+            <div class="slider"> 
+                <input type="checkbox" name="power" id="power" onclick="changePattern(this.checked?lastPattern:0)" {{notchecked 0}}><label for="power"></label>
+            </div>
+            <input name="brightness" id="brightness" type="range" min="0" max="100" onchange="changeBrightness(this.value)" value="{{brightness}}">
         </div>
-
         <div class="timer">
             <div><label for="start_time">On at</label> <input type="time" id="start_time" value="{{startTime}}" onchange="changeStartTime(this.value)"></div>
             <div><label for="stop_time">Off at</label> <input type="time" id="stop_time" value="{{stopTime}}" onchange="changeStopTime(this.value)"></div>
@@ -46,7 +48,6 @@
 
     <hr>
 
-    <input name="brightness" id="brightness" type="range" min="0" max="100" onchange="changeBrightness(this.value)" value="{{brightness}}">
 </div>
 
 <script>
