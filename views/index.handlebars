@@ -43,7 +43,11 @@
             <li><input type="color" name="color2" id="color2" onchange="changeColor2(this.value)" value="{{color2}}"></li>
         </ul>
     </div>
-    </div>
+
+    <hr>
+
+    <input name="brightness" id="brightness" type="range" min="0" max="100" onchange="changeBrightness(this.value)" value="{{brightness}}">
+</div>
 
 <script>
 var lastPattern = {{currentPattern}};
@@ -54,6 +58,12 @@ function changePattern(pattern)
     req.send();
     if (pattern!==0)
         lastPattern = pattern;
+}
+function changeBrightness(brightness)
+{
+    var req = new XMLHttpRequest();
+    req.open("GET", "/api/?brightness=" + brightness);
+    req.send();
 }
 function changeStartTime(time)
 {

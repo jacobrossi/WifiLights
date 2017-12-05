@@ -12,6 +12,7 @@
 FASTLED_USING_NAMESPACE
 
 CRGB leds[NUM_LEDS];
+int brightness = DEFAULT_BRIGHTNESS;
 
 void setup() {
   Serial.begin(115200);
@@ -22,7 +23,7 @@ void setup() {
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(WIFISSID);
-  
+  WiFi.mode(WIFI_STA);
   WiFi.begin(WIFISSID, PWD);
   
   while (WiFi.status() != WL_CONNECTED) {
@@ -62,14 +63,14 @@ void setup() {
   
   // Configure FastLED
   FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(BRIGHTNESS);
+  FastLED.setBrightness(brightness);
 }
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, dotsweep, juggle, bpm, solid, twinkle };
 
-uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
+uint8_t gCurrentPatternNumber = 5; // Default (startup) pattern is solid
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 uint32_t color1 = 255; //Blue
 uint32_t color2 = 65280; //Green
@@ -125,6 +126,10 @@ void pollService()
   int pattern = root["pattern"];
   color1 = root["color1"];
   color2 = root["color2"];
+  if(root["brightness"]) {
+    brightness = root["brightness"]'
+    Serial.println("brightness: " + String(brightness));
+  }
   Serial.println("pattern: " + String(pattern));
   Serial.println("color1: " + String(color1));
   Serial.println("color2: " + String(color2));
@@ -138,37 +143,37 @@ void pollService()
       break;
     case 1:
       Serial.println("Setting LEDs to RANDOM");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       nextPattern();
       break;
     case 2:
       Serial.println("Setting LEDs to RAINBOW");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 0;
       break;
     case 3:
       Serial.println("Setting LEDs to RAINBOW WITH GLITTER");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 1;
       break;     
     case 4:
       Serial.println("Setting LEDs to CONFETTI");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 2;
       break;   
     case 5:
       Serial.println("Setting LEDs to DOTSWEEP");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 3;
       break;
     case 6:
       Serial.println("Setting LEDs to JUGGLE");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 4;
       break;
     case 7:
       Serial.println("Setting LEDs to BPM");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 5;
       break;
     case 8:
@@ -182,7 +187,7 @@ void pollService()
     default:
       //Unrecognized response, just increment to the next pattern
       Serial.println("Unrecognized command. Incrementing pattern.");
-      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.setBrightness(brightness);
       nextPattern();
       break;
   }

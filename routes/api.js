@@ -14,6 +14,7 @@ router.get('/:id?', function(req, res, next) {
     var stop = req.query.stop;
     var color1 = req.query.color1;
     var color2 = req.query.color2;
+    var brightness = req.query.brightness;
     var result = new Object();
 
 
@@ -37,6 +38,10 @@ router.get('/:id?', function(req, res, next) {
     if (color2) {
         require.main.color2 = parseInt(color2);
     }
+    if (brightness) {
+        require.main.brightness = parseInt(brightness);
+    }
+    result.brightness = require.main.brightness;
     result.color1 = require.main.color1;
     result.color2 = require.main.color2;
 
