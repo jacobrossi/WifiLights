@@ -56,6 +56,7 @@ router.get('/:id?', function(req, res, next) {
             console.log("START:" + require.main.startTime.getTime());
             console.log("STOP:" + require.main.stopTime.getTime());
             console.log("NOW:"+currentTime.getTime());
+            console.log("Current pattern: " + result.pattern);
     } else {
             result.pattern = 0;
             console.log("Outside operating hours.");
