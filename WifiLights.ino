@@ -117,8 +117,7 @@ bool checkOrEstablishConnection() {
 void pollService()
 {
   if(!checkOrEstablishConnection()) {
-    Serial.println("Incrementing pattern");
-    nextPattern();
+    //We'll try again next loop
     return;
   }
   
