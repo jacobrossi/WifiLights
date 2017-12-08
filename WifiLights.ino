@@ -13,28 +13,13 @@ FASTLED_USING_NAMESPACE
 
 CRGB leds[NUM_LEDS];
 int brightness = DEFAULT_BRIGHTNESS;
+WiFiClient client;
 
 void setup() {
   Serial.begin(115200);
   delay(100);
 
-  // Connect to WIFI
-  Serial.println();
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(WIFISSID);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFISSID, PWD);
-  
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  Serial.println("");
-  Serial.println("WiFi connected");  
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+  connectToWifi();
 
   //Setup OTA
   ArduinoOTA.onStart([]() {
@@ -89,15 +74,50 @@ void loop()
   ArduinoOTA.handle();
 }
 
+void connectToWifi() {
+  // Connect to WIFI
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(WIFISSID);
+  WiFi.begin(WIFISSID, PWD);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+
+}
+
+bool checkOrEstablishConnection() {
+  if(WiFi.status() != WL_CONNECTED) {
+    Serial.println("Network Connection Lost");
+    connectToWifi();
+  }
+  if(client.connected()) {
+    Serial.println("Closing connection");
+    client.stop();
+  }
+  Serial.print("Connecting to ");
+  Serial.println(HOST);
+  if(client.connect(HOST, PORT)) {
+    Serial.println("Connected");
+    return true;
+  }else{
+    Serial.println("Connection failed");
+    return false;
+  }
+}
+
 void pollService()
 {
-  Serial.print("connecting to ");
-  Serial.println(HOST);
-  
-  // Use WiFiClient class to create TCP connections
-  WiFiClient client;
-  if (!client.connect(HOST, PORT)) {
-    Serial.println("connection failed - incrementing pattern");
+  if(!checkOrEstablishConnection()) {
+    Serial.println("Incrementing pattern");
     nextPattern();
     return;
   }
@@ -133,7 +153,6 @@ void pollService()
   Serial.println("pattern: " + String(pattern));
   Serial.println("color1: " + String(color1));
   Serial.println("color2: " + String(color2));
-  
  
   // Set pattern based on response
   switch(pattern) {
