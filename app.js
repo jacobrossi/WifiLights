@@ -24,7 +24,7 @@ if(!storage.getItemSync('currentPattern')) {
     storage.setItemSync('currentPattern','1');
 }
 if(!storage.getItemSync('color1')) {
-    storage.setItemSync('color1',1671168);
+    storage.setItemSync('color1',16711680);
 }
 if(!storage.getItemSync('color2')) {
     storage.setItemSync('color2',65280); //Green
@@ -38,8 +38,6 @@ app.engine('handlebars', exphbs({defaultLayout: 'main',
     layoutsDir: (!!process.env.PORT?'../views/layouts':'./views/layouts')
 }));
 app.set('view engine', 'handlebars');
-
-app.locals.currentPattern = "1";
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
