@@ -59,6 +59,10 @@ typings/
 
 # VS Code
 .vscode
+*.code-workspace
 
 # WifiLights config
-#WifiLightsConfig.h
+WifiLightsConfig.h
+
+# node-persist
+.node-persist
