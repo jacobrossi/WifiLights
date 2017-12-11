@@ -18,6 +18,8 @@ WiFiClient client;
 void setup() {
   Serial.begin(115200);
   delay(100);
+  //Known to help prevent flicker on ESP8266
+  WiFi.setSleepMode(WIFI_NONE_SLEEP);
 
   connectToWifi();
 
