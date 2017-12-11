@@ -61,4 +61,7 @@ typings/
 .vscode
 
 # WifiLights config
-#WifiLightsConfig.h
+WifiLightsConfig.h
+
+# node-persist
+.node-persist
