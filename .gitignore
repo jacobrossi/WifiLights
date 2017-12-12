@@ -59,7 +59,6 @@ typings/
 
 # VS Code
 .vscode
-*.code-workspace
 
 # WifiLights config
 WifiLightsConfig.h
