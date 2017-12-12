@@ -37,8 +37,8 @@ router.get('/:id?', function(req, res, next) {
         storage.setItemSync('brightness',parseInt(brightness));
     }
     result.brightness = storage.getItemSync('brightness');
-    result.color1 = parseInt(storage.getItemSync('color1'));
-    result.color2 = parseInt(storage.getItemSync('color2'));
+    result.color1 = 255;//parseInt(storage.getItemSync('color1'));
+    result.color2 = 65280;//parseInt(storage.getItemSync('color2'));
 
     var currentDate = new Date();
     var currentTime = new Date(2016,1,1,currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds(), currentDate.getMilliseconds());
