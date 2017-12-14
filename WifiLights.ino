@@ -137,7 +137,7 @@ void pollService()
   client.find(endOfHeaders) || Serial.println("Invalid response");
 
   //Allocate JSON Buffer
-  const size_t BUFFER_SIZE = JSON_OBJECT_SIZE(3) + JSON_ARRAY_SIZE(2) + 60;
+  const size_t bufferSize = JSON_OBJECT_SIZE(4) + 70;
   DynamicJsonBuffer jsonBuffer(BUFFER_SIZE);
 
   //Parse
