@@ -1,31 +1,29 @@
 var express = require('express');
-var storage = require('node-persist');
+//var api = require('/routes/api.js');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    var tStart = new Date(storage.getItemSync('startTime'));
-    var tStop = new Date(storage.getItemSync('stopTime'));
-    var currentPattern = storage.getItemSync('currentPattern');
-    res.render('index', {
-        title: 'Christmas Lights',
-        currentPattern: currentPattern,
-        brightness: storage.getItemSync('brightness'),
-        startTime: (tStart.getHours()=="0"?"00":tStart.getHours()) + ":" + tStart.getMinutes(),
-        stopTime: (tStop.getHours()=="0"?"00":tStop.getHours()) + ":" + tStop.getMinutes(),
-        color1: "#" + storage.getItemSync('color1').toString(16).padStart(6,"0"),
-        color2: "#" + storage.getItemSync('color2').toString(16).padStart(6,"0"),
-        helpers: {
-        checked: function(id) {
-            if (id==currentPattern) {
-            return 'checked';
-            }
-        },
-        notchecked: function(id) {
-            if (id!=currentPattern) {
-            return 'checked';
-            }
+  var startTime = 
+  res.render('index', { 
+    title: 'Christmas Lights', 
+    currentPattern: require.main.currentPattern,
+    brightness: require.main.brightness,
+    startTime: (require.main.startTime.getHours()=="0"?"00":require.main.startTime.getHours()) + ":" + require.main.startTime.getMinutes(),
+    stopTime: (require.main.stopTime.getHours()=="0"?"00":require.main.stopTime.getHours()) + ":" + require.main.stopTime.getMinutes(),
+    color1: "#" + require.main.color1.toString(16).padStart(6,"0"),
+    color2: "#" + require.main.color2.toString(16).padStart(6,"0"),
+    helpers: {
+      checked: function(id) {
+        if (id==require.main.currentPattern) {
+          return 'checked';
         }
+      },
+      notchecked: function(id) {
+        if (id!=require.main.currentPattern) {
+          return 'checked';
+        }
+      }
     }});
 });
 
