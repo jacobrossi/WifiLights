@@ -9,7 +9,7 @@ _pattern= '1' //Random
 
 /* Notes about storage and performance:
     The 8266 microcontroller operates synchronously. This means the http requests to get the latest LED info are synchronous with writing to the LEDs -- in other words,
-    the LED animations will drop frames while the WiFi/Http/JSON routine runs. So, to optimize performance on the server side, we use in-memory variables for all the 
+    the LED animations will drop frames while the WiFi/Http/JSON routine runs. So, to optimize performance on the server side, we use in-memory variables for all the
     LED settings (the led object above). But to ensure uptime and resiliancy, the settings are async written to disk via node-persist. This enables the code below to
     reinitialize the leds object from disk should node restart. Sync read/write from node-persist can be too slow for a good experience.
 */

@@ -1,5 +1,4 @@
 var express = require('express');
-var storage = require('node-persist');
 var router = express.Router();
 var leds = require('../leds');
 

@@ -47,13 +47,14 @@ router.get('/:id?', function(req, res, next) {
             console.log("START:" + tStart.getTime());
             console.log("STOP:" + tStop.getTime());
             console.log("NOW:"+currentTime.getTime());
-            console.log("Current pattern: " + result.pattern);
+            console.dir(result);
     } else {
             result.pattern = 0;
             console.log("Outside operating hours.");
             console.log("START:" + tStart.getTime());
             console.log("STOP:" + tStop.getTime());
             console.log("NOW:"+currentTime.getTime());
+            console.dir(result);
     }
     res.send(JSON.stringify(result))
 });
