@@ -6,32 +6,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var exphbs  = require('express-handlebars');
 var storage = require('node-persist');
+var app = express();
 
 var index = require('./routes/index');
 var api = require('./routes/api');
-
-var app = express();
-
-//Initialize storage
-storage.initSync();
-if(!storage.getItemSync('startTime')) {
-    storage.setItemSync('startTime',new Date(2016,1,1,16,30,0,0));
-}
-if(!storage.getItemSync('stopTime')) {
-    storage.setItemSync('stopTime',new Date(2016,1,1,0,15,0,0));
-}
-if(!storage.getItemSync('currentPattern')) {
-    storage.setItemSync('currentPattern','1');
-}
-if(!storage.getItemSync('color1')) {
-    storage.setItemSync('color1',255);
-}
-if(!storage.getItemSync('color2')) {
-    storage.setItemSync('color2',65280); //Green
-}
-if(!storage.getItemSync('brightness')) {
-    storage.setItemSync('brightness',30);
-}
 
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'main',
