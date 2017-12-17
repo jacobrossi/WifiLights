@@ -1,3 +1,4 @@
+var path = require("path");
 var storage = require('node-persist');
 //LED DEFAULTS
 var _startTime = new Date(2016,1,1,16,30,0,0), //4:30pm
@@ -60,7 +61,7 @@ var leds = {
 
 //Load or init settings in persistent storage
 console.log('Initalizing storage at ' + __dirname);
-storage.init({dir: __dirname}).then(function() {
+storage.init({dir: path.join(__dirname,"nodepersist")}).then(function() {
     return storage.getItem('startTime');
 }).then(function(val) {
     if (typeof val != 'undefined')  {

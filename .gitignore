@@ -64,4 +64,4 @@ typings/
 WifiLightsConfig.h
 
 # node-persist
-.node-persist
+nodepersist

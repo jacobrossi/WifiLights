@@ -16,8 +16,6 @@ app.engine('handlebars', exphbs({defaultLayout: 'main',
 }));
 app.set('view engine', 'handlebars');
 
-app.locals.currentPattern = "1";
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
