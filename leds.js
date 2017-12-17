@@ -1,4 +1,4 @@
-var storage = require('node-persist');
+//var storage = require('node-persist');
 //LED DEFAULTS
 var _startTime = new Date(2016,1,1,16,30,0,0), //4:30pm
 _stopTime = new Date(2016,1,1,0,15,0,0), //12:15am
@@ -17,49 +17,50 @@ _pattern= '1' //Random
 var leds = {
     set startTime(val) {
         _startTime = val;
-        storage.setItem('startTime',val);
+        //storage.setItem('startTime',val);
         console.log('Set startTime to ' + val);
     },
     get startTime() {return _startTime},
 
     set stopTime(val) {
         _stopTime = val;
-        storage.setItem('stopTime',val);
+        //storage.setItem('stopTime',val);
         console.log('Set stopTime to ' + val);
     },
     get stopTime() {return _stopTime},
 
     set color1(val) {
         _color1 = val;
-        storage.setItem('color1',val);
+        //storage.setItem('color1',val);
         console.log('Set color1 to ' + val);
     },
     get color1() {return _color1},
 
     set color2(val) {
         _color2 = val;
-        storage.setItem('color2',val);
+        //storage.setItem('color2',val);
         console.log('Set color2 to ' + val);
     },
     get color2() {return _color2},
 
     set brightness(val) {
         _brightness = val;
-        storage.setItem('brightness',val);
+        //storage.setItem('brightness',val);
         console.log('Set brightness to ' + val);
     },
     get brightness() {return _brightness},
 
     set pattern(val) {
         _pattern = val;
-        storage.setItem('pattern',val);
+        //storage.setItem('pattern',val);
         console.log('Set pattern to ' + val);
     },
     get pattern() {return _pattern}
 };
 
 //Load or init settings in persistent storage
-storage.init().then(function() {
+/*console.log('Initalizing storage at ' + __dirname);
+storage.init({dir: __dirname + '\.node-persist'}).then(function() {
     return storage.getItem('startTime');
 }).then(function(val) {
     if (typeof val != 'undefined')  {
@@ -102,5 +103,5 @@ storage.init().then(function() {
         console.log('Init pattern to ' + val);
     }
 });
-
+*/
 module.exports = leds;
