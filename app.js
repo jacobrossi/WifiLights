@@ -9,7 +9,7 @@ var app = express();
 
 var index = require('./routes/index');
 var api = require('./routes/api');
-
+console.log("========================APP STARTING UP==============================");
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'main',
     layoutsDir: (!!process.env.PORT?'../views/layouts':'./views/layouts')
