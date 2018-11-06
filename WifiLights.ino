@@ -51,6 +51,7 @@ void setup() {
   // Configure FastLED
   FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(brightness);
+  FastLED.setMaxRefreshRate(FRAMES_PER_SECOND);
 }
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
@@ -67,7 +68,6 @@ void loop()
   gPatterns[gCurrentPatternNumber](); // Call the current pattern function once, updating the 'leds' array
   
   FastLED.show();  // send the 'leds' array out to the actual LED strip
-  FastLED.delay(1000/FRAMES_PER_SECOND); // insert a delay to keep the framerate modest
   
   EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
   EVERY_N_SECONDS( 10 ) { pollService(); } // poll service for latest pattern setting
