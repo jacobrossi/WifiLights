@@ -3,27 +3,31 @@
 // Configure settings in WifiLightsConfig.h before flashing
 #define FASTLED_ALLOW_INTERRUPTS 0
 #include "FastLED.h"
-#include <ESP8266WiFi.h>
+//#include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include "WifiLightsConfig.h"
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
+//#include <WiFiUdp.h>
+//#include <ArduinoOTA.h>
+#include <WiFi.h>
+//#include <WifiMulti.h>
+
 
 FASTLED_USING_NAMESPACE
 
 CRGB leds[NUM_LEDS];
-int brightness = DEFAULT_BRIGHTNESS;
+int brightness = BRIGHTNESS;
+//WiFiMulti WifiMulti;
 WiFiClient client;
 
 void setup() {
   Serial.begin(115200);
   delay(100);
   //Known to help prevent flicker on ESP8266
-  WiFi.setSleepMode(WIFI_NONE_SLEEP);
+  //WiFi.setSleepMode(WIFI_NONE_SLEEP);
 
   connectToWifi();
 
-  //Setup OTA
+  /*Setup OTA
   ArduinoOTA.onStart([]() {
     Serial.println("Starting OTA Update");
   });
@@ -44,6 +48,7 @@ void setup() {
   ArduinoOTA.begin();
 
   Serial.println("OTA Updates Enabled");
+  */
 
   // Setup LEDs
   delay(2400); //Delay for recovery 
@@ -70,10 +75,10 @@ void loop()
   FastLED.delay(1000/FRAMES_PER_SECOND); // insert a delay to keep the framerate modest
   
   EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
-  EVERY_N_SECONDS( 10 ) { pollService(); } // poll service for latest pattern setting
+  EVERY_N_MILLISECONDS( 500 ) { pollService(); } // poll service for latest pattern setting
 
   //Check for OTA updates
-  ArduinoOTA.handle();
+  //ArduinoOTA.handle();
 }
 
 void connectToWifi() {
@@ -83,7 +88,8 @@ void connectToWifi() {
   Serial.print("Connecting to ");
   Serial.println(WIFISSID);
   WiFi.begin(WIFISSID, PWD);
-
+  //WiFiMulti.addAP(WIFISSID, PWD);
+  
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
