@@ -10,8 +10,12 @@
 //#include <ArduinoOTA.h>
 #include <WiFi.h>
 //#include <WifiMulti.h>
+#include <Wire.h>
+#include "SSD1306.h"
+#include <QList.h>
 
 
+SSD1306  display(0x3c, 33, 27);
 FASTLED_USING_NAMESPACE
 
 CRGB leds[NUM_LEDS];
@@ -19,35 +23,51 @@ int brightness = BRIGHTNESS;
 //WiFiMulti WifiMulti;
 WiFiClient client;
 
+QList<String> list;
+int maxline = 5;
+
+bool printlog(String str = " ") {
+  list.push_back(str);
+  if(list.length()>maxline) {
+    list.pop_front();
+  }
+  display.clear();
+  for(int i=0; i<maxline; i++) {
+    display.drawString(0, i*10, list[i]);
+  }
+  display.display();
+  Serial.println(str);
+}
+
 void setup() {
   Serial.begin(115200);
   delay(100);
   //Known to help prevent flicker on ESP8266
   //WiFi.setSleepMode(WIFI_NONE_SLEEP);
-
+  display.init();
   connectToWifi();
 
   /*Setup OTA
   ArduinoOTA.onStart([]() {
-    Serial.println("Starting OTA Update");
+    printlog("Starting OTA Update");
   });
   ArduinoOTA.onEnd([]() {
-    Serial.println("\nEnd");
+    printlog("\nEnd");
   });
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
   });
   ArduinoOTA.onError([](ota_error_t error) {
     Serial.printf("Error[%u]: ", error);
-    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
-    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
-    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
-    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
-    else if (error == OTA_END_ERROR) Serial.println("End Failed");
+    if (error == OTA_AUTH_ERROR) printlog("Auth Failed");
+    else if (error == OTA_BEGIN_ERROR) printlog("Begin Failed");
+    else if (error == OTA_CONNECT_ERROR) printlog("Connect Failed");
+    else if (error == OTA_RECEIVE_ERROR) printlog("Receive Failed");
+    else if (error == OTA_END_ERROR) printlog("End Failed");
   });
   ArduinoOTA.begin();
 
-  Serial.println("OTA Updates Enabled");
+  printlog("OTA Updates Enabled");
   */
 
   // Setup LEDs
@@ -75,7 +95,7 @@ void loop()
   FastLED.delay(1000/FRAMES_PER_SECOND); // insert a delay to keep the framerate modest
   
   EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
-  EVERY_N_MILLISECONDS( 500 ) { pollService(); } // poll service for latest pattern setting
+  EVERY_N_SECONDS( 3 ) { pollService(); } // poll service for latest pattern setting
 
   //Check for OTA updates
   //ArduinoOTA.handle();
@@ -83,10 +103,10 @@ void loop()
 
 void connectToWifi() {
   // Connect to WIFI
-  Serial.println();
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(WIFISSID);
+  printlog();
+  printlog();
+  printlog("Connecting to ");
+  printlog(WIFISSID);
   WiFi.begin(WIFISSID, PWD);
   //WiFiMulti.addAP(WIFISSID, PWD);
   
@@ -95,8 +115,8 @@ void connectToWifi() {
     Serial.print(".");
   }
 
-  Serial.println("");
-  Serial.println("WiFi connected");
+  printlog("");
+  printlog("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 
@@ -104,7 +124,7 @@ void connectToWifi() {
 
 bool checkOrEstablishConnection() {
   if(WiFi.status() != WL_CONNECTED) {
-    Serial.println("Network Connection Lost");
+    printlog("Network Connection Lost");
     connectToWifi();
   }
   if(client.connected()) {
@@ -117,7 +137,7 @@ bool checkOrEstablishConnection() {
     Serial.println("Connected");
     return true;
   }else{
-    Serial.println("Connection failed");
+    printlog("Connection failed");
     return false;
   }
 }
@@ -140,7 +160,7 @@ void pollService()
 
   //Trim Headers
   char endOfHeaders[] = "\r\n\r\n";
-  client.find(endOfHeaders) || Serial.println("Invalid response");
+  client.find(endOfHeaders) || printlog("Invalid response");
 
   //Allocate JSON Buffer
   const size_t BUFFER_SIZE = JSON_OBJECT_SIZE(4) + 70;
@@ -148,71 +168,71 @@ void pollService()
 
   //Parse
   JsonObject& root = jsonBuffer.parseObject(client);
-  if (!root.success()) Serial.println("Parsing failed!");
+  if (!root.success()) printlog("Parsing failed!");
   
   int pattern = root["pattern"];
   color1 = root["color1"];
   color2 = root["color2"];
   if(root["brightness"]) {
     brightness = root["brightness"];
-    Serial.println("brightness: " + String(brightness));
+    printlog("brightness: " + String(brightness));
   }
-  Serial.println("pattern: " + String(pattern));
-  Serial.println("color1: " + String(color1));
-  Serial.println("color2: " + String(color2));
+  printlog("pattern: " + String(pattern));
+  printlog("color1: " + String(color1));
+  printlog("color2: " + String(color2));
  
   // Set pattern based on response
   switch(pattern) {
     case 0:
-      Serial.println("Setting LEDs to OFF");
+      printlog("Setting LEDs to OFF");
       FastLED.setBrightness(0);
       break;
     case 1:
-      Serial.println("Setting LEDs to RANDOM");
+      printlog("Setting LEDs to RANDOM");
       FastLED.setBrightness(brightness);
       nextPattern();
       break;
     case 2:
-      Serial.println("Setting LEDs to RAINBOW");
+      printlog("Setting LEDs to RAINBOW");
       FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 0;
       break;
     case 3:
-      Serial.println("Setting LEDs to RAINBOW WITH GLITTER");
+      printlog("Setting LEDs to RAINBOW WITH GLITTER");
       FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 1;
       break;     
     case 4:
-      Serial.println("Setting LEDs to CONFETTI");
+      printlog("Setting LEDs to CONFETTI");
       FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 2;
       break;   
     case 5:
-      Serial.println("Setting LEDs to DOTSWEEP");
+      printlog("Setting LEDs to DOTSWEEP");
       FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 3;
       break;
     case 6:
-      Serial.println("Setting LEDs to JUGGLE");
+      printlog("Setting LEDs to JUGGLE");
       FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 4;
       break;
     case 7:
-      Serial.println("Setting LEDs to BPM");
+      printlog("Setting LEDs to BPM");
       FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 5;
       break;
     case 8:
-      Serial.println("Setting LEDs to SOLID");
+      printlog("Setting LEDs to SOLID");
       gCurrentPatternNumber = 6;
       break;
     case 9:
-      Serial.println("Setting LEDs to TWINKLE");
+      printlog("Setting LEDs to TWINKLE");
       gCurrentPatternNumber = 7;
       break;
     default:
       //Unrecognized response, just increment to the next pattern
-      Serial.println("Unrecognized command. Incrementing pattern.");
+      printlog("Unrecognized command. Incrementing pattern.");
       FastLED.setBrightness(brightness);
       nextPattern();
       break;
