@@ -3,13 +3,10 @@
 // Configure settings in WifiLightsConfig.h before flashing
 #define FASTLED_ALLOW_INTERRUPTS 0
 #include "FastLED.h"
-//#include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include "WifiLightsConfig.h"
-//#include <WiFiUdp.h>
 //#include <ArduinoOTA.h>
 #include <WiFi.h>
-//#include <WifiMulti.h>
 #include <Wire.h>
 #include "SSD1306.h"
 #include <QList.h>
@@ -20,7 +17,6 @@ FASTLED_USING_NAMESPACE
 
 CRGB leds[NUM_LEDS];
 int brightness = BRIGHTNESS;
-//WiFiMulti WifiMulti;
 WiFiClient client;
 
 QList<String> list;
@@ -35,15 +31,13 @@ bool printlog(String str = " ") {
   for(int i=0; i<maxline; i++) {
     display.drawString(0, i*10, list[i]);
   }
-  display.display();
   Serial.println(str);
+  display.display();
 }
 
 void setup() {
   Serial.begin(115200);
   delay(100);
-  //Known to help prevent flicker on ESP8266
-  //WiFi.setSleepMode(WIFI_NONE_SLEEP);
   display.init();
   connectToWifi();
 
@@ -108,7 +102,6 @@ void connectToWifi() {
   printlog("Connecting to ");
   printlog(WIFISSID);
   WiFi.begin(WIFISSID, PWD);
-  //WiFiMulti.addAP(WIFISSID, PWD);
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -224,10 +217,12 @@ void pollService()
       break;
     case 8:
       printlog("Setting LEDs to SOLID");
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 6;
       break;
     case 9:
       printlog("Setting LEDs to TWINKLE");
+      FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 7;
       break;
     default:
