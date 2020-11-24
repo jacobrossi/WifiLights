@@ -1,6 +1,7 @@
 // WifiLights
 // Portions of the animation routines from FastLED DemoReel100 (see LICENSE)
 // Configure settings in WifiLightsConfig.h before flashing
+//#define USEOLED
 #define FASTLED_ALLOW_INTERRUPTS 0
 #include "FastLED.h"
 #include <ArduinoJson.h>
@@ -23,6 +24,7 @@ QList<String> list;
 int maxline = 5;
 
 bool printlog(String str = " ") {
+  #ifdef USEOLED
   list.push_back(str);
   if(list.length()>maxline) {
     list.pop_front();
@@ -31,14 +33,17 @@ bool printlog(String str = " ") {
   for(int i=0; i<maxline; i++) {
     display.drawString(0, i*10, list[i]);
   }
-  Serial.println(str);
   display.display();
+  #endif
+  Serial.println(str);
 }
 
 void setup() {
   Serial.begin(115200);
   delay(100);
+  #ifdef USEOLED
   display.init();
+  #endif
   connectToWifi();
 
   /*Setup OTA
