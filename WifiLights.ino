@@ -79,25 +79,30 @@ void setup() {
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, dotsweep, juggle, bpm, solid, twinkle };
+SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, dotsweep, juggle, bpm, solid, twinkle, fader };
 
-uint8_t gCurrentPatternNumber = 5; // Default (startup) pattern is solid
+uint8_t gCurrentPatternNumber = 8; // Default (startup) pattern is solid
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 uint32_t color1 = 255; //Blue
 uint32_t color2 = 65280; //Green
 
 void loop()
 {
-  gPatterns[gCurrentPatternNumber](); // Call the current pattern function once, updating the 'leds' array
+  //gPatterns[gCurrentPatternNumber](); // Call the current pattern function once, updating the 'leds' array
   
-  FastLED.show();  // send the 'leds' array out to the actual LED strip
-  FastLED.delay(1000/FRAMES_PER_SECOND); // insert a delay to keep the framerate modest
+  //FastLED.show();  // send the 'leds' array out to the actual LED strip
+  //FastLED.delay(1000/FRAMES_PER_SECOND); // insert a delay to keep the framerate modest
   
   EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
-  EVERY_N_SECONDS( 3 ) { pollService(); } // poll service for latest pattern setting
-
+  EVERY_N_SECONDS( 2 ) { pollService(); } // poll service for latest pattern setting
+  EVERY_N_MILLISECONDS( 17 ) { animationFrame(); };
   //Check for OTA updates
   //ArduinoOTA.handle();
+}
+
+void animationFrame() {
+  gPatterns[gCurrentPatternNumber](); // Call the current pattern function once, updating the 'leds' array
+  FastLED.show();  // send the 'leds' array out to the actual LED strip
 }
 
 void connectToWifi() {
@@ -230,6 +235,11 @@ void pollService()
       FastLED.setBrightness(brightness);
       gCurrentPatternNumber = 7;
       break;
+    case 10:
+      printlog("Setting LEDs to FADER");
+      FastLED.setBrightness(brightness);
+      gCurrentPatternNumber = 8;
+      break;
     default:
       //Unrecognized response, just increment to the next pattern
       printlog("Unrecognized command. Incrementing pattern.");
@@ -319,4 +329,8 @@ void juggle() {
 
 void solid() {
   fill_solid(leds, NUM_LEDS, color1);
+}
+
+void fader() {
+  fill_solid(leds, NUM_LEDS, CHSV(gHue,200,255));
 }
