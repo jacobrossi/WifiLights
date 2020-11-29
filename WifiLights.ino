@@ -163,7 +163,10 @@ void pollService()
 
   //Trim Headers
   char endOfHeaders[] = "\r\n\r\n";
-  client.find(endOfHeaders) || printlog("Invalid response");
+  if (!client.find(endOfHeaders)) {
+    printlog("Invalid response");
+    return;
+  }
 
   //Allocate JSON Buffer
   const size_t BUFFER_SIZE = JSON_OBJECT_SIZE(4) + 70;
@@ -171,7 +174,10 @@ void pollService()
 
   //Parse
   JsonObject& root = jsonBuffer.parseObject(client);
-  if (!root.success()) printlog("Parsing failed!");
+  if (!root.success()) {
+    printlog("Parsing failed!");
+    return;
+  }
   
   int pattern = root["pattern"];
   color1 = root["color1"];
