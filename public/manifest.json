@@ -2,7 +2,7 @@
     "name": "Christmas Lights",
     "short_name": "Xmas Lights",
     "description": "Controls Christmas Lights from the WifiLights project.",
-    "start_url": "https://lights.jacobrossi.com/",
+    "start_url": "/",
     "scope": "/",
     "display": "standalone",
     "icons": [
@@ -39,7 +39,7 @@
         {
             "src": "/images/android-icon-192x192.png",
             "sizes": "192x192",
-            "type": "image\/png",
+            "type": "image/png",
             "density": "4.0"
         }
     ]
