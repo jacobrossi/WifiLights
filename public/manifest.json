@@ -1,5 +1,8 @@
 {
- "name": "App",
+ "name": "Christmas Lights",
+ "short_name": "Xmas Lights",
+ "description": "Controls Christmas Lights from the WifiLights project.",
+ "start_url": "https://lights.jacobrossi.com/",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
